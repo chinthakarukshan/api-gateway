@@ -15,9 +15,11 @@ public class APIGatewayConfiguration {
 
     @Bean
     public RouteLocator gatewayRouter(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes().route(p -> p.path("/get").
+        return routeLocatorBuilder.routes().
+                route(p -> p.path("/get").
                 filters(f -> f.addRequestHeader("MyHeader","MyURI").
                         addRequestParameter("MyParam", "MyParamValue")).uri("http://httpbin.org:80")).
+                route(p -> p.path("/currency-exchange/**").uri("lb://currency-exchange")).
                 build();
     }
 }
